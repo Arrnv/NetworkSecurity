@@ -1,9 +1,0 @@
-[ 2025-01-03 19:19:16,057 ] 11 root - INFO - initate data ingestion
-[ 2025-01-03 19:19:20,951 ] 58 root - INFO - performing the train test split on the dataframe
-[ 2025-01-03 19:19:20,951 ] 61 root - INFO - Exporting train test file path
-[ 2025-01-03 19:19:20,987 ] 64 root - INFO - Exporting the train test files
-[ 2025-01-03 19:19:20,987 ] 18 root - INFO - data validation statred
-[ 2025-01-03 19:19:21,004 ] 32 root - INFO - Required number of columns:2
-[ 2025-01-03 19:19:21,004 ] 33 root - INFO - Data frame has columns:31
-[ 2025-01-03 19:19:21,004 ] 32 root - INFO - Required number of columns:2
-[ 2025-01-03 19:19:21,005 ] 33 root - INFO - Data frame has columns:31
