@@ -1,0 +1,35 @@
+[ 2025-01-04 04:54:23,629 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2025-01-04 04:54:23,634 ] 107 dagshub - INFO - Accessing as Arrnv
+[ 2025-01-04 04:54:24,470 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/Arrnv/NetworkSecurity "HTTP/1.1 200 OK"
+[ 2025-01-04 04:54:25,035 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2025-01-04 04:54:25,037 ] 107 dagshub - INFO - Initialized MLflow to track repo "Arrnv/NetworkSecurity"
+[ 2025-01-04 04:54:25,037 ] 107 dagshub - INFO - Repository Arrnv/NetworkSecurity initialized!
+[ 2025-01-04 04:54:25,892 ] 16 root - INFO - Initiate the data ingestion
+[ 2025-01-04 04:54:30,520 ] 58 root - INFO - performing the train test split on the dataframe
+[ 2025-01-04 04:54:30,520 ] 61 root - INFO - Exporting train test file path
+[ 2025-01-04 04:54:30,576 ] 64 root - INFO - Exporting the train test files
+[ 2025-01-04 04:54:30,576 ] 18 root - INFO - Data Initiation Completed
+[ 2025-01-04 04:54:30,582 ] 22 root - INFO - Initiate the data Validation
+[ 2025-01-04 04:54:30,599 ] 33 root - INFO - Required number of columns:31
+[ 2025-01-04 04:54:30,599 ] 34 root - INFO - Data frame has columns:31
+[ 2025-01-04 04:54:30,599 ] 33 root - INFO - Required number of columns:31
+[ 2025-01-04 04:54:30,599 ] 34 root - INFO - Data frame has columns:31
+[ 2025-01-04 04:54:30,718 ] 24 root - INFO - data Validation Completed
+[ 2025-01-04 04:54:30,718 ] 27 root - INFO - data Transformation started
+[ 2025-01-04 04:54:30,718 ] 65 root - INFO - Entered data transformation
+[ 2025-01-04 04:54:30,718 ] 67 root - INFO - starting data transformation
+[ 2025-01-04 04:54:30,737 ] 49 root - INFO - Entered get_data_trnasformer_object method of Trnasformation class
+[ 2025-01-04 04:54:30,737 ] 54 root - INFO - Initialise KNNImputer with {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[ 2025-01-04 04:54:30,754 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:54:30,758 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:54:30,758 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:54:30,761 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:54:30,761 ] 31 root - INFO - data Transformation completed
+[ 2025-01-04 04:54:30,761 ] 32 root - INFO - Model Training stared
+[ 2025-01-04 04:54:30,764 ] 143 root - INFO - model (8291,)
+[ 2025-01-04 04:55:26,527 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:55:26,533 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:55:26,533 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:55:26,534 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:55:26,534 ] 119 root - INFO - Best model: Random Forest with accuracy: 1.0
+[ 2025-01-04 04:55:26,538 ] 37 root - INFO - Model Training artifact created
