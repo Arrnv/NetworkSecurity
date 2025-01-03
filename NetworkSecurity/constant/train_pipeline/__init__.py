@@ -3,6 +3,9 @@ import sys
 import numpy as np # type: ignore
 import pandas as pd# type: ignore
 
+SCHEMA_FILE_PATH = os.path.join("data_schema", "schema.yaml")
+
+
 """
 Data ingestion related constant starts with DATA_INGESTION VAR NAME
 """
@@ -24,3 +27,12 @@ FILE_NAME: str = "phisingData.csv"
 
 TRAIN_FILE_NAME: str = "train.csv"
 TEST_FILE_NAME:str = "test.csv"
+
+"""
+data validation realated constant
+"""
+DATA_VALIDATION_DIR_NAME: str = "data_validation"
+DATA_VALIDATION_VALID_DIR: str = "validation"
+DATA_VALIDATION_INVALID_DIR: str = "invalid"
+DATA_VALIDATION_DRAFT_REPORT_DIR: str = "draft_report"
+DATA_VALIDATION_DRAFT_REPORT_FILE_NAME:str = "report.yaml"
