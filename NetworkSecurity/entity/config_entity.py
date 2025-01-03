@@ -62,3 +62,10 @@ class DataValidationConfig:
             train_pipeline.DATA_VALIDATION_DRAFT_REPORT_FILE_NAME,
         )
         
+class DataTransformationConfig:
+    def __init__(self, training_pipeline_config:TrainingPipelineConfig):
+        self.data_transformation_dir: str = os.path.join(
+            training_pipeline_config.artifact_dir, 
+        )
+        pass        
+        
