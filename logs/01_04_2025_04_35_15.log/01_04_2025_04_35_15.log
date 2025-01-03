@@ -1,0 +1,27 @@
+[ 2025-01-04 04:35:17,193 ] 16 root - INFO - Initiate the data ingestion
+[ 2025-01-04 04:35:21,895 ] 58 root - INFO - performing the train test split on the dataframe
+[ 2025-01-04 04:35:21,895 ] 61 root - INFO - Exporting train test file path
+[ 2025-01-04 04:35:21,931 ] 64 root - INFO - Exporting the train test files
+[ 2025-01-04 04:35:21,931 ] 18 root - INFO - Data Initiation Completed
+[ 2025-01-04 04:35:21,936 ] 22 root - INFO - Initiate the data Validation
+[ 2025-01-04 04:35:21,950 ] 33 root - INFO - Required number of columns:31
+[ 2025-01-04 04:35:21,950 ] 34 root - INFO - Data frame has columns:31
+[ 2025-01-04 04:35:21,950 ] 33 root - INFO - Required number of columns:31
+[ 2025-01-04 04:35:21,950 ] 34 root - INFO - Data frame has columns:31
+[ 2025-01-04 04:35:22,052 ] 24 root - INFO - data Validation Completed
+[ 2025-01-04 04:35:22,052 ] 27 root - INFO - data Transformation started
+[ 2025-01-04 04:35:22,052 ] 65 root - INFO - Entered data transformation
+[ 2025-01-04 04:35:22,052 ] 67 root - INFO - starting data transformation
+[ 2025-01-04 04:35:22,071 ] 49 root - INFO - Entered get_data_trnasformer_object method of Trnasformation class
+[ 2025-01-04 04:35:22,071 ] 54 root - INFO - Initialise KNNImputer with {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[ 2025-01-04 04:35:22,087 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:35:22,089 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:35:22,089 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:35:22,093 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:35:22,094 ] 31 root - INFO - data Transformation completed
+[ 2025-01-04 04:35:22,094 ] 32 root - INFO - Model Training stared
+[ 2025-01-04 04:35:22,096 ] 141 root - INFO - model (8291,)
+[ 2025-01-04 04:35:46,754 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 04:35:46,757 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 04:35:46,757 ] 117 root - INFO - Best model: Random Forest with accuracy: 1.0
+[ 2025-01-04 04:35:46,758 ] 37 root - INFO - Model Training artifact created

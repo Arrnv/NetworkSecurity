@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/arnavlahane/Projects/network_security/mlruns/0/10a047032c1d4436a7eb30ac48ad84d6/artifacts
+end_time: 1735945546752
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 10a047032c1d4436a7eb30ac48ad84d6
+run_name: aged-rook-400
+run_uuid: 10a047032c1d4436a7eb30ac48ad84d6
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1735945543619
+status: 3
+tags: []
+user_id: arnavlahane
