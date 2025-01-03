@@ -1,0 +1,29 @@
+[ 2025-01-04 03:08:47,582 ] 16 root - INFO - Initiate the data ingestion
+[ 2025-01-04 03:08:53,842 ] 58 root - INFO - performing the train test split on the dataframe
+[ 2025-01-04 03:08:53,842 ] 61 root - INFO - Exporting train test file path
+[ 2025-01-04 03:08:53,879 ] 64 root - INFO - Exporting the train test files
+[ 2025-01-04 03:08:53,879 ] 18 root - INFO - Data Initiation Completed
+[ 2025-01-04 03:08:53,884 ] 22 root - INFO - Initiate the data Validation
+[ 2025-01-04 03:08:53,900 ] 33 root - INFO - Required number of columns:31
+[ 2025-01-04 03:08:53,900 ] 34 root - INFO - Data frame has columns:31
+[ 2025-01-04 03:08:53,900 ] 33 root - INFO - Required number of columns:31
+[ 2025-01-04 03:08:53,900 ] 34 root - INFO - Data frame has columns:31
+[ 2025-01-04 03:08:54,002 ] 24 root - INFO - data Validation Completed
+[ 2025-01-04 03:08:54,002 ] 27 root - INFO - data Transformation started
+[ 2025-01-04 03:08:54,002 ] 65 root - INFO - Entered data transformation
+[ 2025-01-04 03:08:54,002 ] 67 root - INFO - starting data transformation
+[ 2025-01-04 03:08:54,019 ] 49 root - INFO - Entered get_data_trnasformer_object method of Trnasformation class
+[ 2025-01-04 03:08:54,019 ] 54 root - INFO - Initialise KNNImputer with {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[ 2025-01-04 03:08:54,034 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 03:08:54,036 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 03:08:54,036 ] 46 root - INFO - Entered the save_object method of MainUtils class
+[ 2025-01-04 03:08:54,040 ] 50 root - INFO - Exited the save_object method of MainUtils class
+[ 2025-01-04 03:08:54,041 ] 31 root - INFO - data Transformation completed
+[ 2025-01-04 03:08:54,041 ] 32 root - INFO - Model Training stared
+[ 2025-01-04 03:08:54,043 ] 129 root - INFO - model [[ 1. -1.  1. ... -1.  1.  0.]
+ [ 1. -1.  1. ... -1.  1.  1.]
+ [-1. -1. -1. ... -1. -1.  1.]
+ ...
+ [-1. -1.  1. ... -1.  1.  1.]
+ [-1. -1.  1. ... -1.  1.  1.]
+ [-1.  1. -1. ...  1.  1.  1.]]
