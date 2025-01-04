@@ -71,7 +71,7 @@ jobs:
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
-          sudo ./aws/install
+          sudo ./aws/install --update
           aws --version
 
       - name: Configure AWS credentials
@@ -105,7 +105,7 @@ jobs:
               -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
               ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
-              
+
 
       - name: Clear unused images and containers
         run: docker system prune -f
