@@ -7,5 +7,7 @@ certifi
 pymongo
 scikit-learn
 dagshub
+fastapi[standard]
+uvicorn
 
 # -e .

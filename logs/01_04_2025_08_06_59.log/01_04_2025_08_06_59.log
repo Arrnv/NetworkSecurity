@@ -1,0 +1,6 @@
+[ 2025-01-04 08:07:00,883 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2025-01-04 08:07:00,887 ] 107 dagshub - INFO - Accessing as Arrnv
+[ 2025-01-04 08:07:01,487 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/Arrnv/NetworkSecurity "HTTP/1.1 200 OK"
+[ 2025-01-04 08:07:02,129 ] 1025 httpx - INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[ 2025-01-04 08:07:02,131 ] 107 dagshub - INFO - Initialized MLflow to track repo "Arrnv/NetworkSecurity"
+[ 2025-01-04 08:07:02,131 ] 107 dagshub - INFO - Repository Arrnv/NetworkSecurity initialized!
