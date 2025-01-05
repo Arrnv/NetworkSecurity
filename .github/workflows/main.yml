@@ -57,6 +57,7 @@ jobs:
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
   Continuous-Deployment:
+    name: Continuous Deployment
     needs: build-and-push-ecr-image
     runs-on: self-hosted
     steps:
@@ -86,13 +87,13 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Docker Login (Manual)
-        run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
-
       - name: Pull Latest Image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: networkssecurity
+          IMAGE_TAG: latest
         run: |
-          sudo docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}:latest
+          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Clear Previous Containers
         run: |
@@ -100,12 +101,16 @@ jobs:
           sudo docker rm networkssecurity || true
 
       - name: Run Docker Image as Server
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: networkssecurity
+          IMAGE_TAG: latest
         run: |
           sudo docker run -d -p 8080:8080 --ipc="host" --name=networkssecurity \
               -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
               -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
               -e AWS_REGION=${{ secrets.AWS_REGION }} \
-              ${{ secrets.AWS_ECR_LOGIN_URI }}:latest
+              $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Clear Unused Images and Containers
         run: sudo docker system prune -f
