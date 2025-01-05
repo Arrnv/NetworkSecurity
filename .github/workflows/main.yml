@@ -99,7 +99,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Verify ECR Login
+        run: echo ${{ steps.login-ecr.outputs.registry }}
+
       - name: Pull Latest Image
+        env:
+          DOCKER_CONFIG: $HOME/.docker/
         run: |
           sudo docker pull ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
 
