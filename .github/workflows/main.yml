@@ -15,11 +15,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Linting Repository
+      - name: Lint Code
         run: echo "Linting repository"
 
-      - name: Running Unit Tests
-        run: echo "Running unit test"
+      - name: Run Unit Tests
+        run: echo "Running unit tests"
 
   build-and-push-ecr-image:
     name: Continuous Delivery
@@ -34,7 +34,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq unzip
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -75,18 +75,20 @@ jobs:
           sudo ./aws/install --update
           aws --version
 
-      - name: Verify Docker Installation
+      - name: Ensure Docker Permissions
         run: |
-          if ! docker --version; then
-            sudo apt-get update
-            sudo apt-get install -y docker.io
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            sudo usermod -aG docker $USER
-          fi
-          docker --version
+          sudo usermod -aG docker $USER
+          newgrp docker
 
-      - name: Configure AWS Credentials
+      - name: Start Docker Service
+        run: |
+          sudo systemctl start docker
+          sudo systemctl enable docker
+
+      - name: Verify Docker Installation
+        run: sudo docker --version
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -97,25 +99,22 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Debug ECR Login URI
-        run: echo "${{ steps.login-ecr.outputs.registry }}"
-
       - name: Pull Latest Image
         run: |
-          docker pull ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
+          sudo docker pull ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
 
-      - name: Stop and Remove Previous Containers
+      - name: Clear Previous Containers
         run: |
-          docker stop networkssecurity || true
-          docker rm networkssecurity || true
+          sudo docker stop networkssecurity || true
+          sudo docker rm networkssecurity || true
 
       - name: Run Docker Image as Server
         run: |
-          docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
+          sudo docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
               -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
               -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
               -e AWS_REGION=${{ secrets.AWS_REGION }} \
               ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
 
       - name: Clear Unused Images and Containers
-        run: docker system prune -f
+        run: sudo docker system prune -f
