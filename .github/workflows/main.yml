@@ -59,51 +59,54 @@ jobs:
     needs: build-and-push-ecr-image
     runs-on: self-hosted
     steps:
-      - name: Checkout
+        - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install prerequisites
+        - name: Install prerequisites
         run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip
+            sudo apt-get update
+            sudo apt-get install -y unzip
 
-      - name: Install AWS CLI
+        - name: Install AWS CLI
         run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install --update
-          aws --version
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install --update
+            aws --version
 
-      - name: Configure AWS credentials
+        - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Debug - List ECR repositories
-        run: aws ecr describe-repositories
-
-      - name: Pull latest Image
+        - name: Debug AWS CLI
         run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI_N }}/${{ secrets.ECR_REPOSITORY_NAME_N }}:latest
+            aws --version
+            aws sts get-caller-identity
 
-      - name: Clear previous containers
+        - name: Debug ECR Login
         run: |
-          docker stop networkssecurity || true
-          docker rm networkssecurity || true
+            echo "Logging into Amazon ECR..."
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_LOGIN_URI_C }}
 
-      - name: Run Docker image to server
+        - name: Pull latest Image
         run: |
-          docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
-            -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' \
-            -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
-            -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
-            ${{ secrets.AWS_ECR_LOGIN_URI_N }}/networkssecurity:latest
+            docker pull ${{ secrets.AWS_ECR_LOGIN_URI_C }}/mitmajorproject:latest
 
-      - name: Clear unused images and containers
+        - name: Clear previous containers
+        run: |
+            docker stop mitmajorproject || true
+            docker rm mitmajorproject || true
+
+        - name: Run Docker image to server
+        run: |
+            docker run -d -p 8000:8000 --ipc="host" --name=mitmajorproject \
+                -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' \
+                -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
+                -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
+                ${{ secrets.AWS_ECR_LOGIN_URI_C }}/mitmajorproject:latest
+
+        - name: Clear unused images and containers
         run: docker system prune -f
