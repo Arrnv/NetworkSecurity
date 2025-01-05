@@ -65,7 +65,7 @@ jobs:
         - name: Install prerequisites
           run: |
             sudo apt-get update
-            sudo apt-get install -y unzip
+            sudo apt-get install -y unzip jq
 
         - name: Install AWS CLI
           run: |
@@ -73,6 +73,9 @@ jobs:
             unzip awscliv2.zip
             sudo ./aws/install --update
             aws --version
+
+        - name: Verify Docker Installation
+          run: docker --version
 
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v1
@@ -84,27 +87,26 @@ jobs:
         - name: Login to Amazon ECR
           id: login-ecr
           uses: aws-actions/amazon-ecr-login@v1
-    
-        - name: Debug - List ECR repositories
-          run: aws ecr describe-repositories
-    
+
+        - name: Debug ECR Login URI
+          run: echo "${{ secrets.AWS_ECR_LOGIN_URI_N }}"
+
         - name: Pull latest Image
           run: |
-              docker pull ${{ secrets.AWS_ECR_LOGIN_URI_N }}/networkssecurity:latest
-    
+            docker pull ${{ secrets.AWS_ECR_LOGIN_URI_N }}/networkssecurity:latest
+
         - name: Clear previous containers
           run: |
-              docker stop networkssecurity || true
-              docker rm networkssecurity || true
-    
+            docker stop networkssecurity || true
+            docker rm networkssecurity || true
+
         - name: Run Docker image to server
           run: |
-              docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
-                  -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' \
-                  -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
-                  -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
-                  ${{ secrets.AWS_ECR_LOGIN_URI_N }}/networkssecurity:latest
-    
+            docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
+                -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' \
+                -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
+                -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
+                ${{ secrets.AWS_ECR_LOGIN_URI_N }}/networkssecurity:latest
 
         - name: Clear unused images and containers
           run: docker system prune -f
