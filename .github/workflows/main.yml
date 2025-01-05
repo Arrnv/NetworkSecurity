@@ -90,7 +90,7 @@ jobs:
 
       - name: Pull latest Image
         run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          docker pull ${{ secrets.AWS_ECR_LOGIN_URI_N }}/${{ secrets.ECR_REPOSITORY_NAME_N }}:latest
 
       - name: Clear previous containers
         run: |
@@ -103,7 +103,7 @@ jobs:
             -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' \
             -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' \
             -e 'AWS_REGION=${{ secrets.AWS_REGION }}' \
-            ${{ secrets.AWS_ECR_LOGIN_URI }}/networkssecurity:latest
+            ${{ secrets.AWS_ECR_LOGIN_URI_N }}/networkssecurity:latest
 
       - name: Clear unused images and containers
         run: docker system prune -f
