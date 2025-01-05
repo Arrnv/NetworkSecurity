@@ -60,66 +60,52 @@ jobs:
     needs: build-and-push-ecr-image
     runs-on: self-hosted
     steps:
-      - name: Checkout Code
+        - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Prerequisites
+        - name: Install Prerequisites
         run: |
-          sudo apt-get update
-          sudo apt-get install -y jq unzip
+            sudo apt-get update
+            sudo apt-get install -y jq unzip
 
-      - name: Install AWS CLI
+        - name: Install AWS CLI
         run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install --update
-          aws --version
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install --update
+            aws --version
 
-      - name: Ensure Docker Permissions
-        run: |
-          sudo usermod -aG docker $USER
-          newgrp docker
-
-      - name: Start Docker Service
-        run: |
-          sudo systemctl start docker
-          sudo systemctl enable docker
-
-      - name: Verify Docker Installation
-        run: sudo docker --version
-
-      - name: Configure AWS credentials
+        - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Login to Amazon ECR
+        - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Verify ECR Login
-        run: echo ${{ steps.login-ecr.outputs.registry }}
-
-      - name: Pull Latest Image
-        env:
-          DOCKER_CONFIG: $HOME/.docker/
+        - name: Docker Login (Manual)
         run: |
-          sudo docker pull ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
 
-      - name: Clear Previous Containers
+        - name: Pull Latest Image
         run: |
-          sudo docker stop networkssecurity || true
-          sudo docker rm networkssecurity || true
+            sudo docker pull ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
 
-      - name: Run Docker Image as Server
+        - name: Clear Previous Containers
         run: |
-          sudo docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
-              -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-              -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-              -e AWS_REGION=${{ secrets.AWS_REGION }} \
-              ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
+            sudo docker stop networkssecurity || true
+            sudo docker rm networkssecurity || true
 
-      - name: Clear Unused Images and Containers
+        - name: Run Docker Image as Server
+        run: |
+            sudo docker run -d -p 8000:8000 --ipc="host" --name=networkssecurity \
+                -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+                -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+                -e AWS_REGION=${{ secrets.AWS_REGION }} \
+                ${{ steps.login-ecr.outputs.registry }}/networkssecurity:latest
+
+        - name: Clear Unused Images and Containers
         run: sudo docker system prune -f
